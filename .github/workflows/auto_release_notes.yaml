@@ -6,9 +6,10 @@ on:
   pull_request:
     branches: [ main ]
   workflow_dispatch:
+  workflow_call:
 
 jobs:
-  run-python:
+  auto-release-notes:
     runs-on: ubuntu-latest
 
     steps:
