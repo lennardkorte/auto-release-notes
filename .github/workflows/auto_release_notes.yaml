@@ -42,7 +42,6 @@ jobs:
         with:
           repository: 'lennardkorte/auto-release-notes'
           ref: main
-          #ssh-key: ${{ secrets.SSH_PRIVATE_KEY }}
           path: auto-release-notes
       
       - name: Run Python script
