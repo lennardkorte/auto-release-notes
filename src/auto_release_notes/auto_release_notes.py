@@ -1,5 +1,7 @@
+from importlib.resources import files
 import os
 import subprocess
+from auto_release_notes.gen_notes import generate
 
 def get_changed_files(last_release_tag, current_commit):
     """Return a list of files changed between last_release_tag and current_commit."""
@@ -11,13 +13,17 @@ def get_changed_files(last_release_tag, current_commit):
 
 def get_file_content(commit, file_path):
     """Return file content for a given commit and file path. 
-    Return None if the file does not exist at that commit."""
+    Return None if the file does not exist at that commit or is binary."""
     try:
         result = subprocess.run(
             ['git', 'show', f'{commit}:{file_path}'],
-            capture_output=True, text=True, check=True
+            capture_output=True, check=True
         )
-        return result.stdout
+        # Try decoding safely
+        try:
+            return result.stdout.decode("utf-8")
+        except UnicodeDecodeError:
+            return "Binary file or non-UTF-8 encoding (content not shown)"
     except subprocess.CalledProcessError:
         return None
 
@@ -86,3 +92,52 @@ def generate_context_string(last_release_tag, current_commit):
 
     # Join all file contexts into one big string
     return "\n".join(context_pieces)
+
+def get_latest_release_tag():
+    """Returns the latest non-beta release tag (e.g., v1.2.0)."""
+    result = subprocess.run(
+        ['git', 'tag', '--list', 'v[0-9]*', '--sort=-v:refname'],
+        capture_output=True, text=True, check=True
+    )
+    tags = [tag for tag in result.stdout.strip().splitlines() if 'beta' not in tag.lower()]
+    return tags[0] if tags else None
+
+def get_current_commit():
+    """Get the current commit SHA."""
+    result = subprocess.run(['git', 'rev-parse', 'HEAD'], capture_output=True, text=True, check=True)
+    return result.stdout.strip()
+
+def generate_release_notes(prompt_file_path="prompt.txt", output_dir="changes", model="gemini/gemini-1.5-flash", apikey=None):
+    """
+    High-level function that:
+      1. Finds the latest tag + current commit
+      2. Extracts diffs to `output_dir` (optional step)
+      3. Generates a single context string
+      4. Reads a prompt file
+      5. Calls the wrapped LLM generate function
+      6. Returns the release notes text
+    """
+    last_tag = get_latest_release_tag()
+    current_commit = get_current_commit()
+    if not last_tag:
+        return "No valid release tag found (like 'v1.0.0'). Please create one."
+
+    # Step 1: Extract to disk (optional)
+    extract_diff(last_tag, current_commit, output_dir=output_dir)
+
+    # Step 2: Generate context
+    context = generate_context_string(last_tag, current_commit)
+
+    # Step 3: Read prompt
+    data_path = files("auto_release_notes").joinpath(prompt_file_path)
+    prompt_text = data_path.read_text()
+
+    # Step 4 & 5: Generate using new wrapper
+    release_notes = generate(
+        changes=context,
+        prompt=prompt_text,
+        model=model,
+        apikey=apikey
+    )
+
+    return release_notes
