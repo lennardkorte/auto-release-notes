@@ -44,6 +44,10 @@ jobs:
           ref: main
           token: ${{ secrets.GITHUB_TOKEN }}
           path: auto-release-notes
+
+      - name: Check tag
+        run: |
+          git tag --list
       
       - name: Run Python script
         run: |
