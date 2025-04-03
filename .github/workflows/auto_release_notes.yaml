@@ -47,5 +47,4 @@ jobs:
       
       - name: Run Python script
         run: |
-          cd auto-release-notes
-          python run.py
+          python auto-release-notes/run.py
