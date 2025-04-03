@@ -91,19 +91,31 @@ def generate_context_string(last_release_tag, current_commit):
     # Join all file contexts into one big string
     return "\n".join(context_pieces)
 
+def get_current_commit():
+    """Get the current commit SHA."""
+    result = subprocess.run(['git', 'rev-parse', 'HEAD'], capture_output=True, text=True, check=True)
+    return result.stdout.strip()
+
 def get_latest_release_tag():
-    """Returns the latest non-beta release tag (e.g., v1.2.0)."""
+    """
+    Returns the latest non-beta release tag (e.g., v1.2.0) that does not point to the current commit.
+    This ensures that if the current commit is already tagged, it won't be used as the baseline.
+    """
+    current_commit = get_current_commit()
     result = subprocess.run(
         ['git', 'tag', '--list', 'v[0-9]*', '--sort=-v:refname'],
         capture_output=True, text=True, check=True
     )
     tags = [tag for tag in result.stdout.strip().splitlines() if 'beta' not in tag.lower()]
-    return tags[0] if tags else None
-
-def get_current_commit():
-    """Get the current commit SHA."""
-    result = subprocess.run(['git', 'rev-parse', 'HEAD'], capture_output=True, text=True, check=True)
-    return result.stdout.strip()
+    for tag in tags:
+        # Get the commit hash for this tag.
+        tag_commit = subprocess.run(
+            ['git', 'rev-list', '-n', '1', tag],
+            capture_output=True, text=True, check=True
+        ).stdout.strip()
+        if tag_commit != current_commit:
+            return tag
+    return None
 
 def generate_release_notes(prompt_file_path="prompt.txt", output_dir="changes", model="gemini/gemini-1.5-flash", apikey=None):
     """
