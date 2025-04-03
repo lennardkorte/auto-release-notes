@@ -1,6 +1,12 @@
 name: Auto Release Notes
 
 on:
+  push:
+    branches: [ main ]
+    tags:
+      - 'v*'
+  pull_request:
+    branches: [ main ]
   workflow_call:
 
 jobs:
@@ -46,6 +52,8 @@ jobs:
           git tag --list
       
       - name: Run Python script
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
         run: |
           python auto-release-notes/run.py > output.txt
 
