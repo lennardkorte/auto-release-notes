@@ -1,0 +1,11 @@
+# Exclude everything by default
+global-exclude *
+
+# Include specific files
+include README.md
+include LICENSE
+include pyproject.toml
+recursive-include src/auto_release_notes *.py
+
+# Recursively include all files from the 'auto_release_notes' package
+recursive-include auto_release_notes *

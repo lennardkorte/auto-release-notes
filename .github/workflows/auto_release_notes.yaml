@@ -20,12 +20,12 @@ jobs:
           echo "Last release tag: $last_release_tag"
           echo "tag=$last_release_tag" >> $GITHUB_OUTPUT
 
-      # - name: Set up Python and run git_diff_extractor
-      #   env:
-      #     LAST_RELEASE_TAG: ${{ steps.get_last_release.outputs.tag }}
-      #     GITHUB_SHA: ${{ github.sha }}
-      #   run: |
-      #     # Install the package if not already available
-      #     pip install .
-      #     # Run the extractor
-      #     git-diff-extractor
+      - name: Set up Python and run git_diff_extractor
+        env:
+          LAST_RELEASE_TAG: ${{ steps.get_last_release.outputs.tag }}
+          GITHUB_SHA: ${{ github.sha }}
+        run: |
+          # Install the package if not already available
+          pip install .
+          # Run the extractor
+          git-diff-extractor
