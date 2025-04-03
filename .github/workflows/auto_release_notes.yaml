@@ -38,7 +38,7 @@ jobs:
           pip install git+ssh://git@github.com/lennardkorte/auto-release-notes.git@main
 
       - name: Checkout external repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           repository: 'lennardkorte/auto-release-notes'
           ref: main
