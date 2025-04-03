@@ -1,0 +1,38 @@
+Generate release notes from the code changes in "Keep a Changelog" style. List changes under categories: Added, Changed, Deprecated, Removed, Fixed, and Security.
+
+Template for release notes:
+
+### Upgrade Steps
+* [ACTION REQUIRED]
+* 
+
+### Breaking Changes
+* 
+* 
+
+### New Features
+* 
+* 
+
+### Bug Fixes
+* 
+* 
+
+### Performance Improvements
+* 
+* 
+
+### Other Changes
+* 
+* 
+
+Example release notes:
+
+### Performance Improvements
+
+* **dependencies:** Bump dependencies  4a4ee13
+
+### Other Changes
+
+* **chore(conventionalChangelog):** Add Conventional Changelog  aafcdd9
+* **docs(CHANGELOG):** Add changelog  e2c7435
