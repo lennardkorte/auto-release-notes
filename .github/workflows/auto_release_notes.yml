@@ -82,7 +82,7 @@ jobs:
 
       - name: Overwrite CHANGELOG.md
         run: |
-          cp artifact/output.txt CHANGELOG.md
+          cp output.txt CHANGELOG.md
 
       - name: Commit and push changelog
         run: |
