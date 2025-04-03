@@ -1,37 +1,4 @@
-name: Access Code Changes and Context
-
-on:
-  push:
-    branches:
-      - main
-  pull_request:
-
-jobs:
-  code_changes:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-
-      - name: Get Last Release Tag
-        id: get_last_release
-        run: |
-          last_release_tag=$(git tag --list "v[0-9]*" --sort=-v:refname | grep -v beta | head -n 1)
-          echo "Last release tag: $last_release_tag"
-          echo "tag=$last_release_tag" >> $GITHUB_OUTPUT
-
-      - name: Set up Python and run git_diff_extractor
-        env:
-          LAST_RELEASE_TAG: ${{ steps.get_last_release.outputs.tag }}
-          GITHUB_SHA: ${{ github.sha }}
-        run: |
-          # Install the package if not already available
-          pip install .
-          # Run the extractor
-          git-diff-extractor
-
-
-name: Run Python Script
+name: Auto Release Notes
 
 on:
   push:
@@ -49,7 +16,7 @@ jobs:
         uses: actions/checkout@v3
         with:
           persist-credentials: true
-          fetch-depth: 0  # Full history
+          fetch-depth: 0
 
       - name: Configure Git
         run: |
@@ -63,12 +30,22 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
-          python-version: '3.x'  # Specify your desired Python version
+          python-version: '3.10'
 
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install -r requirements.txt
+          pip install git+ssh://git@github.com/lennardkorte/auto-release-notes.git@main
 
+      - name: Checkout external repository
+        uses: actions/checkout@v3
+        with:
+          repository: 'lennardkorte/auto-release-notes'
+          ref: main
+          #ssh-key: ${{ secrets.SSH_PRIVATE_KEY }}
+          path: auto-release-notes
+      
       - name: Run Python script
-        run: python your_script.py
+        run: |
+          cd auto-release-notes
+          python run.py
