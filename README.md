@@ -1,9 +1,10 @@
+# Auto Release Note Creation
 
+See github workflow file
+
+Gemini secrets needed (GEMINI_API_KEY)
 
 act --env-file .env
 
 
-```
-from release_diff import extract_diff
-extract_diff("v1.0.0", "HEAD")
-```
+
