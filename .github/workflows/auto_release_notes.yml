@@ -74,7 +74,14 @@ jobs:
         run: |
           cp output.txt CHANGELOG.md
 
+      # - name: Commit and push changelog
+      #   run: |
+      #     git add CHANGELOG.md
+      #     git diff --cached --quiet || git commit -m "Update CHANGELOG with latest release notes"
+      #     git push origin main
+
       - name: Commit and push changelog
+        working-directory: ${{ github.workspace }}
         run: |
           git add CHANGELOG.md
           git diff --cached --quiet || git commit -m "Update CHANGELOG with latest release notes"
