@@ -58,8 +58,6 @@ def extract_diff(last_release_tag, current_commit, output_dir="changes"):
         with open(after_file, "w") as af:
             af.write(after_content if after_content is not None else "File not present in current commit")
 
-    print(f"Extracted changes for {len(changed_files)} file(s) into the '{output_dir}' directory.")
-
 def generate_context_string(last_release_tag, current_commit):
     """
     Generate a single context string representing the before/after changes
