@@ -51,4 +51,14 @@ jobs:
       
       - name: Run Python script
         run: |
-          python auto-release-notes/run.py
+          python auto-release-notes/run.py > output.txt
+
+      - name: Display output
+        run: |
+          cat output.txt
+
+      - name: Upload output artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: release-notes-output
+          path: output.txt
