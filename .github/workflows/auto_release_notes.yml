@@ -69,3 +69,13 @@ jobs:
         with:
           name: release-notes-output
           path: output.txt
+
+      - name: Overwrite CHANGELOG.md
+        run: |
+          cp output.txt CHANGELOG.md
+
+      - name: Commit and push changelog
+        run: |
+          git add CHANGELOG.md
+          git diff --cached --quiet || git commit -m "Update CHANGELOG with latest release notes"
+          git push origin main
