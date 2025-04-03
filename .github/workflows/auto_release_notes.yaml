@@ -45,7 +45,7 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           path: auto-release-notes
 
-      - name: Check tag
+      - name: Check latest tag
         run: |
           git tag --list
       
