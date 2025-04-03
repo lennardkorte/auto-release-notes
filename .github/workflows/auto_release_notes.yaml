@@ -42,7 +42,7 @@ jobs:
         with:
           repository: 'lennardkorte/auto-release-notes'
           ref: main
-          token: ${{ secrets.GITHUB_TOKEN }}
+          # token: ${{ secrets.GITHUB_TOKEN }}
           path: auto-release-notes
       
       - name: Run Python script
