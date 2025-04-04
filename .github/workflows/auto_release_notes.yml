@@ -42,14 +42,6 @@ jobs:
           python -m pip install --upgrade pip
           pip install git+https://github.com/lennardkorte/auto-release-notes.git@main
 
-      - name: Checkout external repository
-        uses: actions/checkout@v4
-        with:
-          repository: 'lennardkorte/auto-release-notes'
-          ref: main
-          token: ${{ secrets.GITHUB_TOKEN }}
-          path: auto-release-notes
-
       - name: Check latest tag
         run: |
           git tag --list
@@ -64,35 +56,8 @@ jobs:
         run: |
           cat output.txt
 
-      - name: Upload output artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: release-notes-output
-          path: output.txt
-
-  load-artifact:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Download release-notes-output artifact
-        id: download_artifact
-        uses: actions/download-artifact@v4
-        with:
-          name: release-notes-output
-          path: ./artifact
-
-      - name: Overwrite CHANGELOG.md
-        run: |
-          cp output.txt CHANGELOG.md
-
       - name: Commit and push changelog
         run: |
           git add CHANGELOG.md
           git diff --cached --quiet || git commit -m "Update CHANGELOG with latest release notes"
           git push origin main
-
-      # - name: Commit and push changelog
-      #   working-directory: ${{ github.workspace }}
-      #   run: |
-      #     git add CHANGELOG.md
-      #     git diff --cached --quiet || git commit -m "Update CHANGELOG with latest release notes"
-      #     git push origin main
