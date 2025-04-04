@@ -52,6 +52,9 @@ jobs:
           repository: 'lennardkorte/auto-release-notes'
           path: auto-release-notes
 
+      - name: List directory contents
+        run: ls -la
+
       - name: Run Python script
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
