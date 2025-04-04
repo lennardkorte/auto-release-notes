@@ -52,18 +52,15 @@ jobs:
           repository: 'lennardkorte/auto-release-notes'
           path: auto-release-notes
 
-      - name: List directory contents
-        run: ls -la
-
       - name: Run Python script
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
         run: |
-          python auto-release-notes/run.py > output.txt
+          python auto-release-notes/run.py > CHANGELOG.md
 
       - name: Display output
         run: |
-          cat output.txt
+          cat CHANGELOG.md
 
       - name: Commit and push changelog
         run: |
