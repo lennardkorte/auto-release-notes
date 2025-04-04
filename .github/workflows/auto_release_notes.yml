@@ -46,6 +46,12 @@ jobs:
         run: |
           git tag --list
       
+      - name: Checkout auto-release-notes repo
+        uses: actions/checkout@v3
+        with:
+          repository: 'lennardkorte/auto-release-notes'
+          path: auto-release-notes
+
       - name: Run Python script
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
