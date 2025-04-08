@@ -4,12 +4,14 @@ import subprocess
 from auto_release_notes.gen_notes import generate
 
 def get_changed_files(last_release_tag, current_commit):
-    """Return a list of files changed between last_release_tag and current_commit."""
+    """Return a list of files changed between last_release_tag and current_commit, excluding CHANGELOG.md."""
     result = subprocess.run(
         ['git', 'diff', '--name-only', last_release_tag, current_commit],
         capture_output=True, text=True, check=True
     )
-    return result.stdout.strip().splitlines()
+    changed_files = result.stdout.strip().splitlines()
+    # Exclude CHANGELOG.md
+    return [f for f in changed_files if f != "CHANGELOG.md"]
 
 def get_file_content(commit, file_path):
     """Return file content for a given commit and file path. 
