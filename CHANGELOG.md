@@ -1,34 +1,30 @@
-## Auto Release Notes - v0.1.0
-
-### Upgrade Steps
-* [ACTION REQUIRED] Update your project's dependencies to include the latest version of the `auto-release-notes` package.  Refer to the documentation for installation instructions.
-
-
-### Breaking Changes
-* None
-
 ### New Features
-* Added a new Python package `auto-release-notes` for automated release note generation.  This package leverages an LLM to generate release notes based on git commit history.
-* Implemented a GitHub Actions workflow (`auto_release_notes.yml`) to automatically generate and commit release notes to a `CHANGELOG.md` file.  This workflow uses the new `auto-release-notes` package.
-* The `auto-release_notes` package now supports specifying a custom prompt file (`prompt.txt`) for more control over the generated release notes.
-* Improved the `get_latest_release_tag` function to correctly identify the latest non-beta tag, preventing the use of the current commit as a baseline if it is already tagged.
-* The `get_file_content` function now handles binary files more gracefully, reporting that the content is not shown.
-* Added handling of cases where files are not present in one or both commits being compared.
+
+* Added a new Python package `auto-release-notes` for generating release notes.  The package leverages an LLM to generate release notes from git commit diffs.
+* Created GitHub Actions workflows (`auto_release_notes.yml` and `release_notes.yml`) to automate the generation and publishing of release notes.  These workflows use the new package and require a GEMINI_API_KEY secret.
+
 
 ### Bug Fixes
-* None
 
-### Performance Improvements
-* None
+* Improved the `get_file_content` function to handle binary files and non-UTF-8 encodings more robustly.  It now returns a message indicating a binary file or encoding issue if the decoding fails.
+
 
 ### Other Changes
-* Added a `.gitignore` file to ignore various files and directories commonly used in Python projects.
-* Added a `SECURITY.md` file outlining the security policy for the project.
-* Added a `LICENSE` file (GNU Lesser General Public License v2.1)
-* Added a `MANIFEST.in` file to control the files included in the source distribution.
-* Refactored the code into a more modular structure, separating concerns into different files.
-* Updated the `README.md` file to include information about the GitHub Actions workflow and installation instructions.
-* Added a `pyproject.toml` file for project metadata and build configuration.
-* Improved the documentation and added examples.
+
+* Added a `.gitignore` file to exclude various files and directories.
+* Added a `LICENSE` file (GNU Lesser General Public License v2.1).
+* Added a `MANIFEST.in` file to specify which files to include in the package distribution.
+* Added a `README.md` file with instructions and a link to the GitHub workflow.
+* Added a `SECURITY.md` file outlining the security policy and disclosure guidelines.
+* Updated `pyproject.toml` to include build system configurations and dependencies.
+* Refactored code into a more structured package with modules for different functionalities.
+* Added a `prompt.txt` file containing the prompt for the LLM.
+* Added a `run.py` file to run the release notes generation script.
+
+### Upgrade Steps
+
+* Add a `GEMINI_API_KEY` secret to your GitHub repository settings.  This secret is required for the GitHub Actions workflows to function.
+* If upgrading from a previous version, manually delete the `CHANGELOG.md` file.  The workflow will automatically regenerate it.
+
 
 
