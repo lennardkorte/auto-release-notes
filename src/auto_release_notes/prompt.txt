@@ -29,9 +29,13 @@ Example release notes:
 
 ### Performance Improvements
 
-* **dependencies:** Bump dependencies  4a4ee13
+* **perf(api):** Optimize SQL queries and add indexing to speed up responses  
+* **perf(frontend):** Defer non-critical JS and shrink bundle size by 15%  
+* **perf(cache):** Refactor caching to reduce redundant DB hits  
 
 ### Other Changes
 
-* **chore(conventionalChangelog):** Add Conventional Changelog  aafcdd9  
-* **docs(CHANGELOG):** Add changelog  e2c7435
+* **deps:** Upgrade axios from 0.27.2 to 1.6.2  
+* **chore(structure):** Reorganize /services directory for clarity  
+* **docs(architecture):** Update internal docs for job scheduling updates  
+* **test(auth):** Add unit tests for AuthService to improve coverage  
