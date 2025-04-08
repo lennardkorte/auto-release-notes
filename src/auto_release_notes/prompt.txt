@@ -1,30 +1,29 @@
 Generate release notes from the code changes in "Keep a Changelog" style. List changes under categories: Added, Changed, Deprecated, Removed, Fixed, and Security.
 
+Each section marked with `###` is optional and should be included only if relevant changes exist.
+
 Template for release notes:
 
 ### Upgrade Steps
-* [ACTION REQUIRED]
-* 
+* [ACTION REQUIRED]  
+  *(Indicate critical steps or migrations needed before or after upgrade.)*
+* *(List any additional instructions or manual steps for a successful upgrade.)*
 
 ### Breaking Changes
-* 
-* 
+* *(List changes that break or alter existing functionality in a non-backward-compatible way.)*
+* *(Call out what must be updated or removed by users.)*
 
 ### New Features
-* 
-* 
+* *(Highlight newly introduced functionalities or improvements.)*
 
 ### Bug Fixes
-* 
-* 
+* *(Mention resolved issues, errors, or regressions.)*
 
 ### Performance Improvements
-* 
-* 
+* *(Describe optimizations that enhance speed or resource usage.)*
 
 ### Other Changes
-* 
-* 
+* *(Include documentation updates, dependency bumps, refactors, or other non-functional changes.)*
 
 Example release notes:
 
@@ -34,5 +33,5 @@ Example release notes:
 
 ### Other Changes
 
-* **chore(conventionalChangelog):** Add Conventional Changelog  aafcdd9
+* **chore(conventionalChangelog):** Add Conventional Changelog  aafcdd9  
 * **docs(CHANGELOG):** Add changelog  e2c7435
