@@ -8,8 +8,6 @@ on:
     secrets:
       GEMINI_API_KEY:
         required: true
-      PAT:
-        required: true
 
 jobs:
   auto-release-notes:
@@ -19,7 +17,6 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
         with:
-          token: ${{ secrets.PAT }}
           persist-credentials: true
           fetch-depth: 0
 
