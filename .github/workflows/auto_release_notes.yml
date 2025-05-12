@@ -5,6 +5,12 @@ permissions:
 
 on:
   workflow_call:
+    inputs:
+      path:
+        description: 'Path to generate release notes for'
+        required: false
+        default: '.'
+        type: string
     secrets:
       GEMINI_API_KEY:
         required: true
@@ -53,7 +59,7 @@ jobs:
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
         run: |
-          python auto-release-notes/run.py > CHANGELOG.md
+          python auto-release-notes/run.py --path "${{ inputs.path }}" > CHANGELOG.md
 
       - name: Display output
         run: |
