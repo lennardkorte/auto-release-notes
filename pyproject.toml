@@ -20,7 +20,7 @@ classifiers = [
     "Operating System :: OS Independent"
 ]
 dependencies = [
-    "litellm>=1.65.1",
+    "litellm==1.65.1",
 ]
 
 
