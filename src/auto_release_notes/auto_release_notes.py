@@ -119,7 +119,7 @@ def get_latest_release_tag():
 def generate_release_notes(
     prompt_file_path="prompt.txt",
     output_dir="changes",
-    model="gemini/gemini-1.5-flash",
+    model="gemini/gemini-1.5-flash-002",
     apikey=None,
     path="."
 ):
